@@ -25,13 +25,11 @@ func subsetXORSum(nums []int) int {
 
 	tSum := 0
 	for _, l := range PowerSet(0) {
-		if len(l) > 0 {
-			v := l[0]
-			for _, n := range l[1:] {
-				v ^= n
-			}
-			tSum += v
+		v := 0
+		for _, n := range l {
+			v ^= n
 		}
+		tSum += v
 	}
 	return tSum
 }

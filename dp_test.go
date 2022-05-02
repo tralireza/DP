@@ -9,20 +9,28 @@ func init() {
 // 1863 Sum of All Subset XOR Totals
 func Test1863(t *testing.T) {
 	// 2^n Power sets
-	var PowerSet func([]int, int) [][]int
-	PowerSet = func(nums []int, i int) [][]int {
-		if i == len(nums) {
+	var PowerSet func(i, N int) [][]int
+	PowerSet = func(i, N int) [][]int {
+		if i == N {
 			return [][]int{{}}
 		}
 
 		r := [][]int{}
-		for _, l := range PowerSet(nums, i+1) {
+		for _, l := range PowerSet(i+1, N) {
 			r = append(r, l)
-			r = append(r, append([]int{nums[i]}, l...))
+			r = append(r, append([]int{i}, l...))
 		}
 		return r
 	}
-	log.Printf("%v -> %v", []int{0, 1, 2, 3}, PowerSet([]int{0, 1, 2, 3}, 0))
+	log.Printf("%v ---PowerSet-> %v", []int{0, 1, 2, 3}, PowerSet(0, 4))
+	AAs := []string{"A", "G", "T", "C"}
+	r := make([][]string, 16)
+	for i, l := range PowerSet(0, 4) {
+		for _, n := range l {
+			r[i] = append(r[i], AAs[n])
+		}
+	}
+	log.Printf("[A G T C] ---PowerSet-> %v", r)
 
 	log.Print("6 ?= ", subsetXORSum([]int{1, 3}))
 	log.Print("28 ?= ", subsetXORSum([]int{5, 1, 6}))
