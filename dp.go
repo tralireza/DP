@@ -9,8 +9,10 @@ func init() {
 
 // 1863 Sum of All Subset XOR Totals
 func subsetXORSum(nums []int) int {
+	rCalls := 0
 	var Calc func(i, v int) int
 	Calc = func(i, v int) int {
+		rCalls++
 		if i == len(nums) {
 			return v
 		}
@@ -21,5 +23,7 @@ func subsetXORSum(nums []int) int {
 		return xSum
 	}
 
-	return Calc(0, 0)
+	v := Calc(0, 0)
+	log.Print("rCalls -> ", rCalls)
+	return v
 }
