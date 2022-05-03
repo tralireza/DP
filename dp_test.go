@@ -22,6 +22,29 @@ func Test1863(t *testing.T) {
 		}
 		return r
 	}
+
+	// iterative PowerSet generator
+	iPowerSet := func(N int) [][]int {
+		r := [][]int{}
+		P := 1
+		for range N {
+			P *= 2
+		}
+		for n := range P {
+			l := []int{}
+			for i := 0; n > 0; i++ {
+				if n&1 == 1 {
+					l = append(l, i)
+				}
+				n >>= 1
+			}
+			r = append(r, l)
+		}
+		return r
+	}
+
+	log.Printf("%v ---PowerSet-> %v", 4, iPowerSet(4))
+
 	log.Printf("%v ---PowerSet-> %v", []int{0, 1, 2, 3}, PowerSet(0, 4))
 	AAs := []string{"A", "G", "T", "C"}
 	r := make([][]string, 16)
