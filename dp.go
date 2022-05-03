@@ -9,27 +9,17 @@ func init() {
 
 // 1863 Sum of All Subset XOR Totals
 func subsetXORSum(nums []int) int {
-
-	var PowerSet func(int) [][]int
-	PowerSet = func(i int) [][]int {
+	var Calc func(i, v int) int
+	Calc = func(i, v int) int {
 		if i == len(nums) {
-			return [][]int{{}}
+			return v
 		}
-		r := [][]int{}
-		for _, l := range PowerSet(i + 1) {
-			r = append(r, l)
-			r = append(r, append([]int{nums[i]}, l...))
-		}
-		return r
+
+		xSum := 0
+		xSum += Calc(i+1, v)
+		xSum += Calc(i+1, v^nums[i])
+		return xSum
 	}
 
-	tSum := 0
-	for _, l := range PowerSet(0) {
-		v := 0
-		for _, n := range l {
-			v ^= n
-		}
-		tSum += v
-	}
-	return tSum
+	return Calc(0, 0)
 }
