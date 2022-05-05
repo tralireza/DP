@@ -27,3 +27,22 @@ func subsetXORSum(nums []int) int {
 	log.Print("rCalls -> ", rCalls)
 	return v
 }
+
+// 78m Subsets
+func subsets(nums []int) [][]int {
+	var PowerSet func([]int) [][]int
+	PowerSet = func(v []int) [][]int {
+		if len(v) == 0 {
+			return [][]int{{}}
+		}
+
+		r := [][]int{}
+		for _, l := range PowerSet(v[1:]) {
+			r = append(r, l)
+			r = append(r, append([]int{v[0]}, l...))
+		}
+		return r
+	}
+
+	return PowerSet(nums)
+}

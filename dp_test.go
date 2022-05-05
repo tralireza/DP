@@ -59,3 +59,9 @@ func Test1863(t *testing.T) {
 	log.Print("28 ?= ", subsetXORSum([]int{5, 1, 6}))
 	log.Print("480 ?= ", subsetXORSum([]int{3, 4, 5, 6, 7, 8}))
 }
+
+// 79m Subsets
+func Test79(t *testing.T) {
+	log.Print("PowerSet-> ", subsets([]int{1, 2, 3}))
+	log.Print("PowerSet-> ", subsets([]int{0}))
+}
