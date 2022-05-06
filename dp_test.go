@@ -62,6 +62,20 @@ func Test1863(t *testing.T) {
 
 // 79m Subsets
 func Test79(t *testing.T) {
-	log.Print("PowerSet-> ", subsets([]int{1, 2, 3}))
-	log.Print("PowerSet-> ", subsets([]int{0}))
+	Iterative := func(nums []int) [][]int {
+		r := [][]int{{}}
+		for _, n := range nums {
+			t := append([][]int{}, r...)
+			for _, l := range r {
+				t = append(t, append(l, n))
+			}
+			r = t
+		}
+		return r
+	}
+
+	for _, f := range []func([]int) [][]int{subsets, Iterative} {
+		log.Print("PowerSet-> ", f([]int{1, 2, 3}))
+		log.Print("PowerSet-> ", f([]int{0}))
+	}
 }
