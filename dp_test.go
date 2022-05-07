@@ -77,25 +77,28 @@ func Test79(t *testing.T) {
 	BackTrack := func(nums []int) [][]int {
 		r := [][]int{}
 
-		var kSet func(start, k int, v []int)
-		kSet = func(start, k int, v []int) {
+		v := []int{}
+		var kSet func(start, k int)
+		kSet = func(start, k int) {
 			if len(v) == k {
-				r = append(r, v)
+				r = append(r, append([]int{}, v...))
 				return
 			}
 			for i := start; i < len(nums); i++ {
-				kSet(i+1, k, append(v, nums[i]))
+				v = append(v, nums[i])
+				kSet(i+1, k)
+				v = v[:len(v)-1]
 			}
 		}
 
 		for k := 0; k <= len(nums); k++ {
-			kSet(0, k, []int{})
+			kSet(0, k)
 		}
 		return r
 	}
 
 	for _, f := range []func([]int) [][]int{subsets, Iterative, BackTrack} {
-		log.Print("+ ", runtime.FuncForPC(reflect.ValueOf(f).Pointer()).Name())
+		log.Print("📀 ", runtime.FuncForPC(reflect.ValueOf(f).Pointer()).Name())
 		log.Print("PowerSet-> ", f([]int{1, 2, 3}))
 		log.Print("PowerSet-> ", f([]int{0}))
 	}
