@@ -103,3 +103,9 @@ func Test79(t *testing.T) {
 		log.Print("PowerSet-> ", f([]int{0}))
 	}
 }
+
+// 131m Palindrome Partitioning
+func Test131(t *testing.T) {
+	log.Print(" -> ", partition("AAB"))
+	log.Print(" -> ", partition("AABBAC"))
+}

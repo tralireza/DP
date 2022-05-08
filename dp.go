@@ -46,3 +46,53 @@ func subsets(nums []int) [][]int {
 
 	return PowerSet(nums)
 }
+
+// 131m Palindrome Partitioning
+func partition(s string) [][]string {
+	r := [][]string{}
+
+	Mem := map[string]byte{}
+	Palindrome := func(s string) bool {
+		if v, ok := Mem[s]; ok {
+			return v == 1
+		}
+		l, r := 0, len(s)-1
+		for l < r {
+			if s[l] != s[r] {
+				Mem[s] = 0
+				return false
+			}
+			l++
+			r--
+		}
+		Mem[s] = 1
+		return true
+	}
+
+	var v []string
+	var Walk func(int)
+	Walk = func(i int) {
+		if i == len(s) {
+			r = append(r, append([]string{}, v...))
+			return
+		}
+
+		for j := i + 1; j <= len(s); j++ {
+			if Palindrome(s[i:j]) {
+				v = append(v, s[i:j])
+				Walk(j)
+				v = v[:len(v)-1]
+			}
+		}
+	}
+
+	for l := 1; l <= len(s); l++ {
+		if Palindrome(s[0:l]) {
+			v = []string{s[0:l]}
+			Walk(l)
+		}
+	}
+
+	log.Print(len(Mem), " -> ", Mem)
+	return r
+}
