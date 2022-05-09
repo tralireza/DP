@@ -51,21 +51,15 @@ func subsets(nums []int) [][]int {
 func partition(s string) [][]string {
 	r := [][]string{}
 
-	Mem := map[string]byte{}
 	Palindrome := func(s string) bool {
-		if v, ok := Mem[s]; ok {
-			return v == 1
-		}
 		l, r := 0, len(s)-1
 		for l < r {
 			if s[l] != s[r] {
-				Mem[s] = 0
 				return false
 			}
 			l++
 			r--
 		}
-		Mem[s] = 1
 		return true
 	}
 
@@ -86,13 +80,39 @@ func partition(s string) [][]string {
 		}
 	}
 
-	for l := 1; l <= len(s); l++ {
-		if Palindrome(s[0:l]) {
-			v = []string{s[0:l]}
-			Walk(l)
+	Walk(0)
+	return r
+}
+
+// 2597m The Number of Beautiful Subsets
+func beautifulSubsets(nums []int, k int) int {
+	r := [][]int{}
+
+	v := []int{}
+	var Walk func(int)
+	Walk = func(start int) {
+		if start == len(nums) {
+			for l := 0; l < len(v); l++ {
+				for r := l + 1; r < len(v); r++ {
+					if v[l]-v[r] == k || v[r]-v[l] == k {
+						return
+					}
+				}
+			}
+			r = append(r, append([]int{}, v...))
+			return
+		}
+
+		for i := start; i < len(nums); i++ {
+			v = append(v, nums[start])
+			Walk(i + 1)
+			v = v[:len(v)-1]
 		}
 	}
+	for start := range nums {
+		Walk(start)
+	}
 
-	log.Print(len(Mem), " -> ", Mem)
-	return r
+	log.Print(r)
+	return len(r)
 }

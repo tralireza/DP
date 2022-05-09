@@ -109,3 +109,8 @@ func Test131(t *testing.T) {
 	log.Print(" -> ", partition("AAB"))
 	log.Print(" -> ", partition("AABBAC"))
 }
+
+// 2597m The Number of Beautiful Subsets
+func Test2597(t *testing.T) {
+	log.Print("4 ?= ", beautifulSubsets([]int{2, 4, 6}, 2))
+}
