@@ -84,6 +84,47 @@ func partition(s string) [][]string {
 	return r
 }
 
+// 1255h Maximum Score Words Formed by Letters
+func maxScoreWords(words []string, letters []byte, score []int) int {
+	xScore := 0
+
+	v := []string{}
+	var Walk func(int)
+	Walk = func(start int) {
+		if start == len(words) {
+			lFQ := [26]int{}
+			for _, l := range letters {
+				lFQ[l-'a']++
+			}
+
+			vScore := 0
+			for _, w := range v {
+				for i := 0; i < len(w); i++ {
+					if lFQ[w[i]-'a'] == 0 {
+						return
+					}
+					lFQ[w[i]-'a']--
+					vScore += score[w[i]-'a']
+				}
+			}
+			xScore = max(xScore, vScore)
+			return
+		}
+
+		for i := start; i < len(words); i++ {
+			v = append(v, words[start])
+			Walk(i + 1)
+			v = v[:len(v)-1]
+		}
+	}
+
+	for i := 0; i < len(words); i++ {
+		Walk(i)
+	}
+
+	return xScore
+}
+
 // 2597m The Number of Beautiful Subsets
 func beautifulSubsets(nums []int, k int) int {
 	r := [][]int{}

@@ -110,6 +110,12 @@ func Test131(t *testing.T) {
 	log.Print(" -> ", partition("AABBAC"))
 }
 
+// 1255h Maximum Score Words Formed by Letters
+func Test1255(t *testing.T) {
+	log.Print("23 ?= ", maxScoreWords([]string{"dog", "cat", "dad", "good"}, []byte{'a', 'a', 'c', 'd', 'd', 'd', 'g', 'o', 'o'}, []int{1, 0, 9, 5, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}))
+	log.Print("27 ?= ", maxScoreWords([]string{"xxxz", "ax", "bx", "cx"}, []byte{'z', 'a', 'b', 'c', 'x', 'x', 'x'}, []int{4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 10}))
+}
+
 // 2597m The Number of Beautiful Subsets
 func Test2597(t *testing.T) {
 	log.Print("4 ?= ", beautifulSubsets([]int{2, 4, 6}, 2))
