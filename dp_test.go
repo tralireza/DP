@@ -1,6 +1,11 @@
 package DP
 
-import "log"
+import (
+	"log"
+	"reflect"
+	"runtime"
+	"testing"
+)
 
 func init() {
 	log.Print("> Dynamic Programming")
@@ -112,8 +117,61 @@ func Test131(t *testing.T) {
 
 // 1255h Maximum Score Words Formed by Letters
 func Test1255(t *testing.T) {
-	log.Print("23 ?= ", maxScoreWords([]string{"dog", "cat", "dad", "good"}, []byte{'a', 'a', 'c', 'd', 'd', 'd', 'g', 'o', 'o'}, []int{1, 0, 9, 5, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}))
-	log.Print("27 ?= ", maxScoreWords([]string{"xxxz", "ax", "bx", "cx"}, []byte{'z', 'a', 'b', 'c', 'x', 'x', 'x'}, []int{4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 10}))
+	WithPrune := func(words []string, letters []byte, score []int) int {
+		x := 0
+
+		v, vscore, vfrq := []string{}, 0, [26]int{}
+		for _, l := range letters {
+			vfrq[l-'a']++
+		}
+
+		var Walk func(int)
+		Walk = func(start int) {
+			if start == len(words) {
+				log.Printf("%2d   %v   %q", vscore, vfrq, v)
+				x = max(x, vscore)
+				return
+			}
+
+			for i := start; i < len(words); i++ {
+				lfrq := [26]int{}
+				copy(lfrq[:], vfrq[:])
+				wscore := 0
+				for _, r := range words[start] {
+					if lfrq[r-'a'] == 0 {
+						wscore = 0
+						break
+					}
+					lfrq[r-'a']--
+					wscore += score[r-'a']
+				}
+
+				if wscore > 0 {
+					v = append(v, words[start])
+					vscore += wscore
+					lfrq, vfrq = vfrq, lfrq
+
+					Walk(i + 1)
+
+					// BackTracking
+					v = v[:len(v)-1]
+					vscore -= wscore
+					lfrq, vfrq = vfrq, lfrq
+				}
+			}
+		}
+
+		for i := 0; i < len(words); i++ {
+			Walk(i)
+		}
+
+		return x
+	}
+
+	for _, f := range []func([]string, []byte, []int) int{maxScoreWords, WithPrune} {
+		log.Print("23 ?= ", f([]string{"dog", "cat", "dad", "good"}, []byte{'a', 'a', 'c', 'd', 'd', 'd', 'g', 'o', 'o'}, []int{1, 0, 9, 5, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}))
+		log.Print("27 ?= ", f([]string{"xxxz", "ax", "bx", "cx"}, []byte{'z', 'a', 'b', 'c', 'x', 'x', 'x'}, []int{4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 10}))
+	}
 }
 
 // 2597m The Number of Beautiful Subsets
