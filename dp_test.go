@@ -133,31 +133,32 @@ func Test1255(t *testing.T) {
 				return
 			}
 
+			lfrq := [26]int{}
+			copy(lfrq[:], vfrq[:])
+			wscore := 0
+			for _, r := range words[start] {
+				if lfrq[r-'a'] == 0 {
+					wscore = 0
+					break
+				}
+				lfrq[r-'a']--
+				wscore += score[r-'a']
+			}
+			if wscore == 0 {
+				return
+			}
+
 			for i := start; i < len(words); i++ {
-				lfrq := [26]int{}
-				copy(lfrq[:], vfrq[:])
-				wscore := 0
-				for _, r := range words[start] {
-					if lfrq[r-'a'] == 0 {
-						wscore = 0
-						break
-					}
-					lfrq[r-'a']--
-					wscore += score[r-'a']
-				}
+				v = append(v, words[start])
+				vscore += wscore
+				lfrq, vfrq = vfrq, lfrq
 
-				if wscore > 0 {
-					v = append(v, words[start])
-					vscore += wscore
-					lfrq, vfrq = vfrq, lfrq
+				Walk(i + 1)
 
-					Walk(i + 1)
-
-					// BackTracking
-					v = v[:len(v)-1]
-					vscore -= wscore
-					lfrq, vfrq = vfrq, lfrq
-				}
+				// BackTracking
+				v = v[:len(v)-1]
+				vscore -= wscore
+				lfrq, vfrq = vfrq, lfrq
 			}
 		}
 
