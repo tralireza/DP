@@ -145,6 +145,7 @@ func Test1255(t *testing.T) {
 				wscore += score[r-'a']
 			}
 			if wscore == 0 {
+				log.Printf("-> [P] %s %q", words[start], v)
 				return
 			}
 
