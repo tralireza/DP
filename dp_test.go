@@ -178,5 +178,36 @@ func Test1255(t *testing.T) {
 
 // 2597m The Number of Beautiful Subsets
 func Test2597(t *testing.T) {
-	log.Print("4 ?= ", beautifulSubsets([]int{2, 4, 6}, 2))
+	WithBitset := func(nums []int, k int) int {
+		var Walk func(start, mask int) int
+		Walk = func(start, mask int) int {
+			if start == len(nums) {
+				log.Print(" -> ", mask)
+				if mask != 0 {
+					return 1
+				}
+				return 0
+			}
+
+			g := true // Beautiful
+			for i := 0; i < start && g; i++ {
+				if (1<<i)&mask != 0 && (nums[i]-nums[start] == k || nums[start]-nums[i] == k) {
+					g = false
+				}
+			}
+
+			gn := 0
+			if g {
+				gn = Walk(start+1, mask+(1<<start))
+			}
+			return gn + Walk(start+1, mask)
+		}
+
+		return Walk(0, 0)
+	}
+
+	for _, f := range []func([]int, int) int{beautifulSubsets, WithBitset} {
+		log.Print("49 ?= ", f([]int{2, 8, 4, 1, 7, 9, 5}, 3))
+		log.Print("4 ?= ", f([]int{2, 4, 6}, 2))
+	}
 }
