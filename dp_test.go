@@ -193,6 +193,7 @@ func Test2597(t *testing.T) {
 			for i := 0; i < start && g; i++ {
 				if (1<<i)&mask != 0 && (nums[i]-nums[start] == k || nums[start]-nums[i] == k) {
 					g = false
+					log.Printf("%0*b %d -> P", len(nums), mask, start)
 				}
 			}
 
@@ -207,7 +208,7 @@ func Test2597(t *testing.T) {
 	}
 
 	for _, f := range []func([]int, int) int{beautifulSubsets, WithBitset} {
-		log.Print("49 ?= ", f([]int{2, 8, 4, 1, 7, 9, 5}, 3))
+		log.Print("19 ?= ", f([]int{2, 8, 7, 9, 5}, 3))
 		log.Print("4 ?= ", f([]int{2, 4, 6}, 2))
 	}
 }
