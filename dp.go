@@ -133,14 +133,17 @@ func beautifulSubsets(nums []int, k int) int {
 	var Walk func(int)
 	Walk = func(start int) {
 		if start == len(nums) {
-			for l := 0; l < len(v); l++ {
-				for r := l + 1; r < len(v); r++ {
-					if v[l]-v[r] == k || v[r]-v[l] == k {
-						return
-					}
-				}
-			}
+			log.Print(" -> ", v)
 			r = append(r, append([]int{}, v...))
+			return
+		}
+
+		g := true
+		for i := 0; i < len(v) && g; i++ {
+			g = v[i]-nums[start] != k && nums[start]-v[i] != k
+		}
+		if !g {
+			log.Print(v, nums[start], " -> P")
 			return
 		}
 
