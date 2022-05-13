@@ -11,6 +11,12 @@ func init() {
 	log.Print("> Dynamic Programming")
 }
 
+// 3068h Find the Maximum Sum of Node Values
+func Test3068(t *testing.T) {
+	log.Print("6 ?= ", maximumValueSum([]int{1, 2, 1}, 3, [][]int{{0, 1}, {0, 2}}))
+	log.Print("42 ?= ", maximumValueSum([]int{7, 7, 7, 7, 7, 7}, 3, [][]int{{0, 1}, {0, 2}, {0, 3}, {0, 4}, {0, 5}}))
+}
+
 // 1863 Sum of All Subset XOR Totals
 func Test1863(t *testing.T) {
 	// 2^n Power sets
@@ -182,7 +188,7 @@ func Test2597(t *testing.T) {
 		var Walk func(start, mask int) int
 		Walk = func(start, mask int) int {
 			if start == len(nums) {
-				log.Print(" -> ", mask)
+				log.Printf(" -> %0*b", len(nums), mask)
 				if mask != 0 {
 					return 1
 				}

@@ -160,3 +160,23 @@ func beautifulSubsets(nums []int, k int) int {
 	log.Print(r)
 	return len(r)
 }
+
+// 3068h Find the Maximum Sum of Node Values
+func maximumValueSum(nums []int, k int, edges [][]int) int {
+	M := make([][2]int, len(nums)+1)
+
+	M[len(nums)][0] = 0           // even XOR operations
+	M[len(nums)][1] = math.MinInt // odd XOR operations
+
+	for i := len(nums) - 1; i >= 0; i-- {
+		for parity := 0; parity < 2; parity++ {
+			xor := nums[i] ^ k + M[i+1][parity^1]
+			noXor := nums[i] + M[i+1][parity]
+
+			M[i][parity] = max(xor, noXor)
+		}
+	}
+
+	log.Print(M)
+	return M[0][0]
+}
