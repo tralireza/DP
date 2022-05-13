@@ -13,8 +13,30 @@ func init() {
 
 // 3068h Find the Maximum Sum of Node Values
 func Test3068(t *testing.T) {
-	log.Print("6 ?= ", maximumValueSum([]int{1, 2, 1}, 3, [][]int{{0, 1}, {0, 2}}))
-	log.Print("42 ?= ", maximumValueSum([]int{7, 7, 7, 7, 7, 7}, 3, [][]int{{0, 1}, {0, 2}, {0, 3}, {0, 4}, {0, 5}}))
+	Recursive := func(nums []int, k int, edges [][]int) int {
+		x := 0
+
+		var Walk func(from, xorCount, v int)
+		Walk = func(from, xorCount, v int) {
+			if from == len(nums) {
+				if xorCount&1 == 0 {
+					x = max(x, v)
+				}
+				return
+			}
+
+			Walk(from+1, xorCount, nums[from]+v)
+			Walk(from+1, xorCount+1, (nums[from]^k)+v)
+		}
+
+		Walk(0, 0, 0)
+		return x
+	}
+
+	for _, f := range []func([]int, int, [][]int) int{maximumValueSum, Recursive} {
+		log.Print("6 ?= ", f([]int{1, 2, 1}, 3, [][]int{{0, 1}, {0, 2}}))
+		log.Print("42 ?= ", f([]int{7, 7, 7, 7, 7, 7}, 3, [][]int{{0, 1}, {0, 2}, {0, 3}, {0, 4}, {0, 5}}))
+	}
 }
 
 // 1863 Sum of All Subset XOR Totals
