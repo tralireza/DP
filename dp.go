@@ -87,6 +87,45 @@ func partition(s string) [][]string {
 	return r
 }
 
+// 552h Student Attendance Record II
+func checkRecord(n int) int {
+	D := make([][2][3]int, n+1) // {index, total-absence, consecutive-lateness}
+	m := 1000_000_007
+
+	D[0][0][0] = 1
+
+	for i := 0; i < n; i++ {
+		for a := 0; a < 2; a++ {
+			for l := 0; l < 3; l++ {
+				// 'P'
+				D[i+1][a][0] += D[i][a][l]
+				D[i+1][a][0] %= m
+
+				// 'A'
+				if a < 1 {
+					D[i+1][a+1][0] += D[i][a][l]
+					D[i+1][a+1][0] %= m
+				}
+
+				// 'L'
+				if l < 2 {
+					D[i+1][a][l+1] += D[i][a][l]
+					D[i+1][a][l+1] %= m
+				}
+			}
+		}
+	}
+
+	v := 0
+	for a := 0; a < 2; a++ {
+		for l := 0; l < 3; l++ {
+			v += D[n][a][l]
+			v %= m
+		}
+	}
+	return v
+}
+
 // 1255h Maximum Score Words Formed by Letters
 func maxScoreWords(words []string, letters []byte, score []int) int {
 	xScore := 0

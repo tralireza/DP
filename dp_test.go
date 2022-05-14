@@ -173,6 +173,11 @@ func Test552(t *testing.T) {
 	}
 
 	log.Print("183236316 -> ", AllSpace(10101))
+	log.Print("==")
+
+	log.Print("8 ?= ", checkRecord(2))
+	log.Print("19 ?= ", checkRecord(3))
+	log.Print("183236316 ?= ", checkRecord(10101))
 }
 
 // 1255h Maximum Score Words Formed by Letters
