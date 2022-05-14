@@ -143,6 +143,38 @@ func Test131(t *testing.T) {
 	log.Print(" -> ", partition("AABBAC"))
 }
 
+// 552h Student Attendance Record II
+func Test552(t *testing.T) {
+	AllSpace := func(n int) int {
+		Mem, m := map[[3]int]int{}, 1000_000_007
+
+		var Walk func(start, as, ls int, state []byte) int
+		Walk = func(start, as, ls int, state []byte) int {
+			if as == 2 || ls == 3 {
+				return 0
+			}
+			if start == n {
+				return 1
+			}
+			if v, ok := Mem[[3]int{start, as, ls}]; ok {
+				return v
+			}
+
+			v := (Walk(start+1, as, 0, append(state, 'P'))%m +
+				Walk(start+1, as+1, 0, append(state, 'A'))%m +
+				Walk(start+1, as, ls+1, append(state, 'L'))%m) % m
+
+			Mem[[3]int{start, as, ls}] = v
+			return v
+		}
+
+		v := Walk(0, 0, 0, []byte{})
+		return v
+	}
+
+	log.Print("183236316 -> ", AllSpace(10101))
+}
+
 // 1255h Maximum Score Words Formed by Letters
 func Test1255(t *testing.T) {
 	WithPrune := func(words []string, letters []byte, score []int) int {
