@@ -5,6 +5,7 @@ import (
 	"reflect"
 	"runtime"
 	"testing"
+	"time"
 )
 
 func init() {
@@ -172,12 +173,13 @@ func Test552(t *testing.T) {
 		return v
 	}
 
-	log.Print("183236316 -> ", AllSpace(10101))
-	log.Print("==")
-
-	log.Print("8 ?= ", checkRecord(2))
-	log.Print("19 ?= ", checkRecord(3))
-	log.Print("183236316 ?= ", checkRecord(10101))
+	for _, f := range []func(int) int{checkRecord, AllSpace} {
+		log.Print("++ ", runtime.FuncForPC(reflect.ValueOf(f).Pointer()).Name())
+		log.Print("8 ?= ", f(2))
+		log.Print("19 ?= ", f(3))
+		ts := time.Now()
+		log.Print("183236316 ?= ", f(10101), " [", time.Since(ts), "]")
+	}
 }
 
 // 1255h Maximum Score Words Formed by Letters
