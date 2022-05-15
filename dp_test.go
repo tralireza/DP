@@ -146,7 +146,7 @@ func Test131(t *testing.T) {
 
 // 552h Student Attendance Record II
 func Test552(t *testing.T) {
-	AllSpace := func(n int) int {
+	Recursive := func(n int) int {
 		Mem, m := map[[3]int]int{}, 1000_000_007
 
 		var Walk func(start, as, ls int, state []byte) int
@@ -173,7 +173,45 @@ func Test552(t *testing.T) {
 		return v
 	}
 
-	for _, f := range []func(int) int{checkRecord, AllSpace} {
+	SpaceOptimized := func(n int) int {
+		m := 1000_000_007
+		cur, prv := [2][3]int{}, [2][3]int{} // total-absence, consequtive-lateness
+		cur[0][0] = 1
+
+		for i := 0; i < n; i++ {
+			prv = cur
+			cur = [2][3]int{}
+
+			for a := range 2 {
+				for l := range 3 {
+					// 'P'
+					cur[a][0] += prv[a][l]
+					cur[a][0] %= m
+
+					if a < 1 { // 'A'
+						cur[a+1][0] += prv[a][l]
+						cur[a+1][0] %= m
+					}
+
+					if l < 2 { // 'L'
+						cur[a][l+1] += prv[a][l]
+						cur[a][l+1] %= m
+					}
+				}
+			}
+		}
+
+		v := 0
+		for a := range 2 {
+			for l := range 3 {
+				v += cur[a][l]
+				v %= m
+			}
+		}
+		return v
+	}
+
+	for _, f := range []func(int) int{checkRecord, Recursive, SpaceOptimized} {
 		log.Print("++ ", runtime.FuncForPC(reflect.ValueOf(f).Pointer()).Name())
 		log.Print("8 ?= ", f(2))
 		log.Print("19 ?= ", f(3))
