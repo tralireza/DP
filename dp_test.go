@@ -175,12 +175,12 @@ func Test552(t *testing.T) {
 
 	SpaceOptimized := func(n int) int {
 		m := 1000_000_007
-		cur, prv := [2][3]int{}, [2][3]int{} // total-absence, consequtive-lateness
+		cur := [2][3]int{} // total-absence, consequtive-lateness
 		cur[0][0] = 1
 
+		var prv [2][3]int
 		for i := 0; i < n; i++ {
-			prv = cur
-			cur = [2][3]int{}
+			prv, cur = cur, [2][3]int{}
 
 			for a := range 2 {
 				for l := range 3 {
