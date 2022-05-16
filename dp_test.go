@@ -2,6 +2,7 @@ package DP
 
 import (
 	"log"
+	"math"
 	"reflect"
 	"runtime"
 	"testing"
@@ -15,22 +16,30 @@ func init() {
 // 3068h Find the Maximum Sum of Node Values
 func Test3068(t *testing.T) {
 	Recursive := func(nums []int, k int, edges [][]int) int {
-		x := 0
+		Mem := map[[2]int]int{}
 
-		var Walk func(from, xorCount, v int)
-		Walk = func(from, xorCount, v int) {
+		var Walk func(from, xorCount int) int
+		Walk = func(from, xorCount int) int {
 			if from == len(nums) {
-				if xorCount&1 == 0 {
-					x = max(x, v)
+				if xorCount&1 == 0 { // even Xor operations
+					return 0
 				}
-				return
+				return math.MinInt
 			}
 
-			Walk(from+1, xorCount, nums[from]+v)
-			Walk(from+1, xorCount+1, (nums[from]^k)+v)
+			if v, ok := Mem[[2]int{from, xorCount & 1}]; ok {
+				return v
+			}
+
+			noXor := Walk(from+1, xorCount) + nums[from]
+			xor := Walk(from+1, xorCount+1) + (nums[from] ^ k)
+
+			Mem[[2]int{from, xorCount & 1}] = max(noXor, xor)
+			return max(noXor, xor)
 		}
 
-		Walk(0, 0, 0)
+		x := Walk(0, 0)
+		log.Print(Mem)
 		return x
 	}
 
