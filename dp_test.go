@@ -13,6 +13,13 @@ func init() {
 	log.Print("> Dynamic Programming")
 }
 
+// 22m Generate Parentheses
+func Test22(t *testing.T) {
+	log.Printf(" ?= %q", generateParenthesis(3))
+	log.Printf(" ?= %q", generateParenthesis(1))
+	log.Printf(" ?= %q", generateParenthesis(4))
+}
+
 // 3068h Find the Maximum Sum of Node Values
 func Test3068(t *testing.T) {
 	Recursive := func(nums []int, k int, edges [][]int) int {

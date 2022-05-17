@@ -1,6 +1,7 @@
 package DP
 
 import (
+	"container/list"
 	"log"
 	"math"
 )
@@ -8,6 +9,29 @@ import (
 func init() {
 	log.SetFlags(0)
 	log.SetPrefix("")
+}
+
+// 22m Generate Parentheses
+func generateParenthesis(n int) []string {
+	r := []string{}
+
+	var BT func(s string, opn, cls int)
+	BT = func(s string, opn, cls int) {
+		if opn == 0 && cls == 0 {
+			r = append(r, s)
+			return
+		}
+
+		if opn > 0 {
+			BT(s+"(", opn-1, cls)
+		}
+		if cls > opn {
+			BT(s+")", opn, cls-1)
+		}
+	}
+	BT("", n, n)
+
+	return r
 }
 
 // 1863 Sum of All Subset XOR Totals
