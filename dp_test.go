@@ -160,6 +160,13 @@ func Test131(t *testing.T) {
 	log.Print(" -> ", partition("AABBAC"))
 }
 
+// 279m Perfect Squares
+func Test279(t *testing.T) {
+	log.Print("3 ?= ", numSquares(12))
+	log.Print("2 ?= ", numSquares(13))
+	log.Print("4 ?= ", numSquares(7168))
+}
+
 // 552h Student Attendance Record II
 func Test552(t *testing.T) {
 	Recursive := func(n int) int {

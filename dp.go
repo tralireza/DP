@@ -1,7 +1,6 @@
 package DP
 
 import (
-	"container/list"
 	"log"
 	"math"
 )
@@ -109,6 +108,31 @@ func partition(s string) [][]string {
 
 	Walk(0)
 	return r
+}
+
+// 279m Perfect Squares
+func numSquares(n int) int {
+	Mem := make([]int, n+1)
+	for r := 1; r*r <= n; r++ {
+		Mem[r*r] = 1
+	}
+
+	var Calc func(int) int
+	Calc = func(n int) int {
+		if Mem[n] > 0 {
+			return Mem[n]
+		}
+
+		v := 4
+		for r := 1; r*r < n; r++ {
+			v = min(v, Calc(n-r*r)+Calc(r*r))
+		}
+
+		Mem[n] = v
+		return v
+	}
+
+	return Calc(n)
 }
 
 // 552h Student Attendance Record II
