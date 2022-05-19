@@ -20,6 +20,12 @@ func Test22(t *testing.T) {
 	log.Printf(" ?= %q", generateParenthesis(4))
 }
 
+// 39m Combination Sum
+func Test39(t *testing.T) {
+	log.Print("[[2 2 3] [7]] ?= ", combinationSum([]int{2, 3, 6, 7}, 7))
+	log.Print("[[2 2 2 2] [2 3 3] [3 5]] ?= ", combinationSum([]int{2, 3, 5}, 8))
+}
+
 // 3068h Find the Maximum Sum of Node Values
 func Test3068(t *testing.T) {
 	Recursive := func(nums []int, k int, edges [][]int) int {

@@ -33,6 +33,30 @@ func generateParenthesis(n int) []string {
 	return r
 }
 
+// 39m Combination Sum
+func combinationSum(candidates []int, target int) [][]int {
+	r := [][]int{}
+
+	var BT func(v []int, start, curSum int)
+	BT = func(v []int, start, curSum int) {
+		if curSum >= target {
+			if curSum == target {
+				r = append(r, append([]int{}, v...))
+			}
+			return
+		}
+
+		for i := start; i < len(candidates); i++ {
+			v = append(v, candidates[i])
+			BT(v, i, curSum+candidates[i])
+			v = v[:len(v)-1] // BackTrack
+		}
+	}
+
+	BT([]int{}, 0, 0)
+	return r
+}
+
 // 1863 Sum of All Subset XOR Totals
 func subsetXORSum(nums []int) int {
 	rCalls := 0
