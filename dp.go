@@ -47,9 +47,7 @@ func combinationSum(candidates []int, target int) [][]int {
 		}
 
 		for i := start; i < len(candidates); i++ {
-			v = append(v, candidates[i])
-			BT(v, i, curSum+candidates[i])
-			v = v[:len(v)-1] // BackTrack
+			BT(append([]int{candidates[i]}, v...), i, curSum+candidates[i])
 		}
 	}
 
