@@ -28,8 +28,32 @@ func Test39(t *testing.T) {
 
 // 46m Permutations
 func Test46(t *testing.T) {
-	log.Print("[1 2 3] -> ", permute([]int{1, 2, 3}))
-	log.Print("[0 1] -> ", permute([]int{0, 1}))
+	P1 := func(nums []int) [][]int {
+		p := [][]int{}
+
+		var BT func([]int, int)
+		BT = func(v []int, start int) {
+			if start == len(nums) {
+				p = append(p, append([]int{}, v...))
+				return
+			}
+
+			for i := start; i < len(nums); i++ {
+				nums[i], nums[start] = nums[start], nums[i]
+				BT(append(v, nums[start]), start+1)
+				nums[i], nums[start] = nums[start], nums[i]
+			}
+		}
+
+		BT([]int{}, 0)
+
+		return p
+	}
+
+	for _, f := range []func([]int) [][]int{permute, P1} {
+		log.Print("[1 2 3] -> ", f([]int{1, 2, 3}))
+		log.Print("[0 1] -> ", f([]int{0, 1}))
+	}
 }
 
 // 3068h Find the Maximum Sum of Node Values
