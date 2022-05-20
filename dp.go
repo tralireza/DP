@@ -55,6 +55,35 @@ func combinationSum(candidates []int, target int) [][]int {
 	return r
 }
 
+// 46m Permutations
+func permute(nums []int) [][]int {
+	p := [][]int{}
+
+	var BT func(v, s []int, l int)
+	BT = func(v, s []int, l int) {
+		if l == len(nums) {
+			p = append(p, append([]int{}, v...))
+			return
+		}
+
+		for i := 0; i < len(s); i++ {
+			v = append(v, s[i])
+
+			x := make([]int, len(s)-1)
+			copy(x, s[:i])
+			copy(x[i:], s[i+1:])
+
+			BT(v, x, l+1)
+
+			v = v[:len(v)-1]
+		}
+	}
+
+	BT([]int{}, nums, 0)
+
+	return p
+}
+
 // 1863 Sum of All Subset XOR Totals
 func subsetXORSum(nums []int) int {
 	rCalls := 0

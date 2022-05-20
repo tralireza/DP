@@ -26,6 +26,12 @@ func Test39(t *testing.T) {
 	log.Print("[[2 2 2 2] [2 3 3] [3 5]] ?= ", combinationSum([]int{2, 3, 5}, 8))
 }
 
+// 46m Permutations
+func Test46(t *testing.T) {
+	log.Print("[1 2 3] -> ", permute([]int{1, 2, 3}))
+	log.Print("[0 1] -> ", permute([]int{0, 1}))
+}
+
 // 3068h Find the Maximum Sum of Node Values
 func Test3068(t *testing.T) {
 	Recursive := func(nums []int, k int, edges [][]int) int {
