@@ -1,6 +1,7 @@
 package DP
 
 import (
+	"fmt"
 	"log"
 	"math"
 	"reflect"
@@ -53,6 +54,25 @@ func Test46(t *testing.T) {
 	for _, f := range []func([]int) [][]int{permute, P1} {
 		log.Print("[1 2 3] -> ", f([]int{1, 2, 3}))
 		log.Print("[0 1] -> ", f([]int{0, 1}))
+	}
+}
+
+// 51h N-Queens
+func Test(t *testing.T) {
+	log.Printf(" ?= %q", solveNQueens(4))
+	log.Printf(" ?= %q", solveNQueens(1))
+	log.Print(" ?= ", solveNQueens(3))
+	log.Print(" ?= ", len(solveNQueens(8)))
+
+	Qs := solveNQueens(6)
+	for _, Q := range Qs {
+		fmt.Print("===\n")
+		for r := range Q {
+			for c := range Q[r] {
+				fmt.Printf("|%c", Q[r][c])
+			}
+			fmt.Print("|\n")
+		}
 	}
 }
 

@@ -3,6 +3,7 @@ package DP
 import (
 	"log"
 	"math"
+	"strings"
 )
 
 func init() {
@@ -82,6 +83,68 @@ func permute(nums []int) [][]int {
 	BT([]int{}, nums, 0)
 
 	return p
+}
+
+// 51h N-Queens
+func solveNQueens(n int) [][]string {
+	r := [][]string{}
+	board := []string{}
+	for range n {
+		board = append(board, strings.Repeat(".", n))
+	}
+
+	Valid := func(board []string) bool {
+		for r := 0; r < n; r++ {
+			for c := 0; c < n; c++ {
+				if board[r][c] != 'Q' {
+					continue
+				}
+				for i := 0; i < n; i++ {
+					if i != r && board[i][c] == 'Q' {
+						return false
+					}
+					if i != c && board[r][i] == 'Q' {
+						return false
+					}
+					if i == 0 {
+						continue
+					}
+					for _, dir := range [][]int{{1, 1}, {1, -1}, {-1, 1}, {-1, -1}} {
+						r, c := r+i*dir[0], c+i*dir[1]
+						if 0 <= r && r < n && 0 <= c && c < n && board[r][c] == 'Q' {
+							return false
+						}
+					}
+				}
+			}
+		}
+		return true
+	}
+
+	var BT func([]string, int)
+	BT = func(v []string, start int) {
+		if start == n {
+			if Valid(v) {
+				r = append(r, append([]string{}, v...))
+			}
+			return
+		}
+
+		if !Valid(v) {
+			return
+		}
+
+		for x := 0; x < n; x++ {
+			lcur := v[start]
+			v[start] = lcur[:x] + "Q" + lcur[x+1:]
+			BT(v, start+1)
+			v[start] = lcur
+		}
+	}
+
+	BT(board, 0)
+
+	return r
 }
 
 // 1863 Sum of All Subset XOR Totals
