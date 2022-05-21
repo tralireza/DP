@@ -90,7 +90,7 @@ func solveNQueens(n int) [][]string {
 	r := [][]string{}
 	board := []string{}
 	for range n {
-		board = append(board, strings.Repeat(".", n))
+		board = append(board, strings.Repeat("~", n))
 	}
 
 	Valid := func(board []string) bool {

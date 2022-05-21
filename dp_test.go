@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"math"
+	"math/rand"
 	"reflect"
 	"runtime"
 	"testing"
@@ -64,15 +65,23 @@ func Test(t *testing.T) {
 	log.Print(" ?= ", solveNQueens(3))
 	log.Print(" ?= ", len(solveNQueens(8)))
 
-	Qs := solveNQueens(6)
-	for _, Q := range Qs {
-		fmt.Print("===\n")
+	N := 8
+	Qs := solveNQueens(N)
+	for _, i := range rand.Perm(len(Qs)) {
+		fmt.Print(i, "===\n")
+		Q := Qs[i]
 		for r := range Q {
+			fmt.Print(N-r, " ")
 			for c := range Q[r] {
 				fmt.Printf("|%c", Q[r][c])
 			}
 			fmt.Print("|\n")
 		}
+		fmt.Print("  ")
+		for i := range N {
+			fmt.Printf(" %c", 'a'+i)
+		}
+		fmt.Print("\n")
 	}
 }
 
