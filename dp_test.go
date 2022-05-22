@@ -59,30 +59,29 @@ func Test46(t *testing.T) {
 }
 
 // 51h N-Queens
-func Test(t *testing.T) {
-	log.Printf(" ?= %q", solveNQueens(4))
-	log.Printf(" ?= %q", solveNQueens(1))
-	log.Print(" ?= ", solveNQueens(3))
-	log.Print(" ?= ", len(solveNQueens(8)))
-
-	N := 8
-	Qs := solveNQueens(N)
+func Test51(t *testing.T) {
+	Qs := solveNQueens(8)
 	for _, i := range rand.Perm(len(Qs)) {
 		fmt.Print(i, "===\n")
 		Q := Qs[i]
 		for r := range Q {
-			fmt.Print(N-r, " ")
+			fmt.Print(8-r, " ")
 			for c := range Q[r] {
 				fmt.Printf("|%c", Q[r][c])
 			}
 			fmt.Print("|\n")
 		}
 		fmt.Print("  ")
-		for i := range N {
+		for i := range 8 {
 			fmt.Printf(" %c", 'a'+i)
 		}
 		fmt.Print("\n")
 	}
+
+	log.Printf(" ?= %q", solveNQueens(4))
+	log.Printf(" ?= %q", solveNQueens(1))
+	log.Print(" ?= ", solveNQueens(3))
+	log.Print(" ?= ", len(solveNQueens(8)))
 }
 
 // 3068h Find the Maximum Sum of Node Values
